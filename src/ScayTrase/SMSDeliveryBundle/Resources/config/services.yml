@@ -1,0 +1,7 @@
+parameters:
+    scaytrase_utils_sms_delivery.sender.class: ScayTrase\Utils\SMSDeliveryBundle\Service\DummySender
+
+services:
+    sms_delivery.sender:
+        class: %scaytrase_utils_sms_delivery.sender.class%
+        arguments: [@service_container]

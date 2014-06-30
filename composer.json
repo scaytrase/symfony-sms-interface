@@ -1,0 +1,16 @@
+{
+    "name": "scaytrase/symfony-sms-interface",
+    "description": "Dummy bundle for sending sms",
+    "minimum-stability": "dev",
+    "license": "GPLv2",
+    "authors": [
+        {
+            "name": "Pavel Batanov",
+            "email": "pavel@batanov.me"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/symfony": "~2.4"
+    }
+}
