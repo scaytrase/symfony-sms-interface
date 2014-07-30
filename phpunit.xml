@@ -26,7 +26,9 @@
     </php>
     <testsuites>
         <testsuite name="All tests">
-            <directory>src/GlobalManager/Challenger/WUIBundle/Tests/</directory>
+            <directory>src/*Bundle/Tests</directory>
+            <directory>src/*/*Bundle/Tests</directory>
+            <directory>src/*/*/*Bundle/Tests</directory>
         </testsuite>
     </testsuites>
     <filter>
