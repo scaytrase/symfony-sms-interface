@@ -6,7 +6,7 @@
  * Time: 12:56
  */
 
-namespace ScayTrase\Utils\SMSDeliveryBundle\Service;
+namespace ScayTrase\Utils\SMSDeliveryBundle\Exception;
 
 
 use Exception;

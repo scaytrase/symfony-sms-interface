@@ -6,7 +6,7 @@
  * Time: 12:57
  */
 
-namespace ScayTrase\Utils\SMSDeliveryBundle\Service;
+namespace ScayTrase\Utils\SMSDeliveryBundle\Exception;
 
 
 class InvalidRecipientDeliveryException extends DeliveryFailedException {
