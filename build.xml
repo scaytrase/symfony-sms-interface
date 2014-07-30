@@ -22,7 +22,7 @@
 
 
     <target name="zip-artifacts" depends="prepare">
-        <zip basedir="src" level="9" destfile="${basedir}/target/${JOB_NAME}-${VERSION}-build${BUILD_NUMBER}.zip"
+        <zip basedir="src"  destfile="${basedir}/target/${JOB_NAME}-${VERSION}-build${BUILD_NUMBER}.zip"
              includes="app/ web/ src/ composer.json" excludes="web/bundles/* app/cache/* app/logs/*"/>
     </target>
 
