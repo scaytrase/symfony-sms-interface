@@ -117,6 +117,17 @@ class MessageDeliveryServiceTest extends WebTestCase
         $this->assertEquals(1,$collector->getMessagesCount());
     }
 
+    public function testPublicService(){
+        $this->extension->load(array(array('disable_delivery' => true)), $container = $this->getContainer());
+
+        /** @var ShortMessageInterface|\PHPUnit_Framework_MockObject_MockObject $message */
+        $message = $this->getMock('ScayTrase\Utils\SMSDeliveryBundle\Service\ShortMessageInterface');
+
+        $sender = $container->get('sms_delivery.sender');
+
+        $this->assertTrue($sender->send($message));
+    }
+
     protected function getExtension()
     {
         return new ScayTraseUtilsSMSDeliveryExtension();
