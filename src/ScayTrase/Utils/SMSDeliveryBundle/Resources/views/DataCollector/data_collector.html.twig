@@ -40,7 +40,7 @@
 {% block panel %}
     <h2>Short Messages</h2>
 
-    <h3>{{ collector.service }}</h3>
+    <h3>{{ collector.data.service }}</h3>
 
     {% if not collector.messageCount %}
         <p>
@@ -55,10 +55,12 @@
             </tr>
             </thead>
             <tbody>
-            {% for key,data in collector.data %}
+            {% for key,record in collector.data.messages %}
                 <tr>
                     <td>{{ key }}</td>
-                    <td>{{ data }}</td>
+                    <td>{{ record.message.recipient }}</td>
+                    <td>{{ record.message.body }}</td>
+                    <td>{{ record.message.reason }}</td>
                 </tr>
             {% endfor %}
             </tbody>
