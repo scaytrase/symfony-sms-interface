@@ -52,15 +52,19 @@
             <tr>
                 <th scope="col">Status</th>
                 <th scope="col">Messages</th>
+                <th scope="col">Body</th>
+                <th scope="col">Status</th>
+                <th scope="col">Reason</th>
             </tr>
             </thead>
             <tbody>
-            {% for key,record in collector.messages %}
+            {% for key,record in collector.records %}
                 <tr>
                     <td>{{ key }}</td>
                     <td>{{ record.message.recipient }}</td>
                     <td>{{ record.message.body }}</td>
-                    <td>{{ record.message.reason }}</td>
+                    <td>{{ record.status }}</td>
+                    <td>{{ record.reason }}</td>
                 </tr>
             {% endfor %}
             </tbody>

@@ -58,7 +58,7 @@ abstract class MessageDeliveryService
             $this->message_collector[] = array(
                 'message' => $message,
                 'status' => $result ? 'success' : 'fail',
-                'reason' => 'sms_delivery.disable_delivery is true',
+                'reason' => $this->getLastReason()
             );
 
             return $result;
