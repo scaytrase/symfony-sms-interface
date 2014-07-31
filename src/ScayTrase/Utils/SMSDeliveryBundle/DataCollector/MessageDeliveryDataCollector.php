@@ -14,9 +14,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 
-class MessageDeliveryDataCollector extends DataCollector {
+class MessageDeliveryDataCollector extends DataCollector
+{
 
-    /** @var MessageDeliveryService  */
+    /** @var MessageDeliveryService */
     private $service;
 
     /**
@@ -43,10 +44,21 @@ class MessageDeliveryDataCollector extends DataCollector {
         $this->data = $this->service->getCollectorData();
     }
 
+    public function getRecords()
+    {
+        return $this->data['messages'];
+    }
+
+    public function getService()
+    {
+        return $this->data['service'];
+    }
+
     /**
      * @return int
      */
-    public function getMessageCount(){
+    public function getMessageCount()
+    {
         return count($this->data['messages']);
     }
 
