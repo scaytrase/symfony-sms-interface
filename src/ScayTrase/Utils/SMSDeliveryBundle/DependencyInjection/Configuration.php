@@ -21,7 +21,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('scay_trase_utils_sms_delivery');
+        $rootNode = $treeBuilder->root('sms_delivery');
 
         $rootNode
             ->children()

@@ -12,8 +12,13 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class ScayTraseUtilsSMSDeliveryExtension extends Extension
+class SMSDeliveryExtension extends Extension
 {
+    public function getAlias()
+    {
+        return 'sms_delivery';
+    }
+
     /**
      * {@inheritDoc}
      */

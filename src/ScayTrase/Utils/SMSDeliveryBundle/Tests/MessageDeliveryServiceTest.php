@@ -10,7 +10,7 @@ namespace ScayTrase\Utils\SMSDeliveryBundle\Tests;
 
 
 use ScayTrase\Utils\SMSDeliveryBundle\DataCollector\MessageDeliveryDataCollector;
-use ScayTrase\Utils\SMSDeliveryBundle\DependencyInjection\ScayTraseUtilsSMSDeliveryExtension;
+use ScayTrase\Utils\SMSDeliveryBundle\DependencyInjection\SMSDeliveryExtension;
 use ScayTrase\Utils\SMSDeliveryBundle\Service\MessageDeliveryService;
 use ScayTrase\Utils\SMSDeliveryBundle\Service\ShortMessageInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -22,7 +22,7 @@ class MessageDeliveryServiceTest extends WebTestCase
 {
 
     /**
-     * @var ScayTraseUtilsSMSDeliveryExtension
+     * @var SMSDeliveryExtension
      */
     private $extension;
 
@@ -130,7 +130,7 @@ class MessageDeliveryServiceTest extends WebTestCase
 
     protected function getExtension()
     {
-        return new ScayTraseUtilsSMSDeliveryExtension();
+        return new SMSDeliveryExtension();
     }
 
     private function getContainer()
