@@ -114,7 +114,7 @@ class MessageDeliveryServiceTest extends WebTestCase
 
         $collector = new MessageDeliveryDataCollector($sender);
         $collector->collect(new Request(),new Response());
-        $this->assertEquals(1,$collector->getMessagesCount());
+        $this->assertEquals(1,$collector->getMessageCount());
     }
 
     public function testPublicService(){
