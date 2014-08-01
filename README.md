@@ -16,8 +16,10 @@ This Symfony2 bundle provides basic interface for sending short messages as a se
 
 ## Installation
 
+Installation is available via Composer
 
-### Composer
+### composer.json
+
 
 ```
 require: "scaytrase/symfony-sms-interface": "~1.2.0"
