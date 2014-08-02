@@ -14,7 +14,7 @@
     </div>
     {% endset %}
 
-    {% include '@WebProfiler/Profiler/toolbar_item.html.twig' with {'link':profiler_url} %}
+    {% include 'WebProfilerBundle:Profiler:toolbar_item.html.twig' with {'link':profiler_url} %}
     {# the web debug toolbar content #}
 {% endblock %}
 
