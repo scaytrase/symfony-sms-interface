@@ -48,7 +48,7 @@ abstract class MessageDeliveryService
     {
         return array(
             'messages' => $this->message_collector,
-            'service' => get_class(),
+            'service' => get_class($this),
         );
     }
 
