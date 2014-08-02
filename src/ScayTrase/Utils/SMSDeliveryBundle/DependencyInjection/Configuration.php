@@ -21,12 +21,14 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('scay_trase_utils_sms_delivery');
+        $rootNode = $treeBuilder->root('sms_delivery');
 
+        $disable_delivery = (new BooleanNodeDefinition('disable_delivery'));
+        $delivery_recipient = (new ScalarNodeDefinition('delivery_recipient'));
         $rootNode
             ->children()
-                ->append((new BooleanNodeDefinition('disable_delivery'))->defaultFalse()->info('Disables actual delivery for testing purposes'))
-                ->append((new ScalarNodeDefinition('delivery_recipient'))->defaultNull()->info('Recipient for messages for testing purposes'))
+                ->append($disable_delivery->defaultFalse()->info('Disables actual delivery for testing purposes'))
+                ->append($delivery_recipient->defaultNull()->info('Recipient for messages for testing purposes'))
             ->end()
             ;
 

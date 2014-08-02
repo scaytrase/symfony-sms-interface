@@ -15,4 +15,4 @@ services:
         class: ScayTrase\Utils\SMSDeliveryBundle\DataCollector\MessageDeliveryDataCollector
         arguments: ['@sms_delivery.sender']
         tags:
-            - { name: data_collector, template: "ScayTraseUtilsSMSDeliveryBundle:DataCollector:data_collector", id: "sms_delivery.data_collector" }
+            - { name: data_collector, template: "SMSDeliveryBundle:DataCollector:data_collector", id: "sms_delivery.data_collector" }

@@ -16,26 +16,20 @@ abstract class MessageDeliveryService
 {
     /** @var  ContainerInterface */
     private $container;
-
-    /** @var array succeeded messages list for profiling */
-    private $messages_sent = array();
-    /** @var array failed messages list for profiling */
-    private $messages_failed = array();
-    /** @var array disabled messages list for profiling */
-    private $messages_disabled = array();
-
-    public function getCollectorData()
-    {
-        return array(
-            'messages_sent' => $this->messages_sent,
-            'messages_failed' => $this->messages_failed,
-            'messages_disabled' => $this->messages_disabled,
-        );
-    }
+    private $last_reason = null;
+    private $message_collector = array();
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+    }
+
+    public function getCollectorData()
+    {
+        return array(
+            'messages' => $this->message_collector,
+            'service' => get_class(),
+        );
     }
 
     /**
@@ -44,9 +38,13 @@ abstract class MessageDeliveryService
      */
     public function send(ShortMessageInterface $message)
     {
+        $this->last_reason = null;
         if ($this->container->getParameter('sms_delivery.disable_delivery') === true) {
-            $this->messages_sent[] = $message;
-            $this->messages_disabled[] = $message;
+            $this->message_collector[] = array(
+                'message' => $message,
+                'status' => 'disabled',
+                'reason' => 'sms_delivery.disable_delivery is true',
+            );
             return true;
         }
 
@@ -54,14 +52,24 @@ abstract class MessageDeliveryService
             $message->setRecipient($recipient);
         }
 
-        $this->messages_sent[] = $message;
         try {
             $result = $this->sendMessage($message);
 
-            if (!$result) $this->messages_failed[] = $message;
+            $this->message_collector[] = array(
+                'message' => $message,
+                'status' => $result ? 'success' : 'fail',
+                'reason' => $this->getLastReason()
+            );
+
             return $result;
         } catch (DeliveryFailedException $e) {
-            $this->messages_failed[] = $message;
+
+            $this->message_collector[] = array(
+                'message' => $message,
+                'status' => 'fail',
+                'reason' => $e->getMessage().PHP_EOL.$this->getLastReason(),
+            );
+
             return false;
         }
     }
@@ -72,4 +80,20 @@ abstract class MessageDeliveryService
      * @throws DeliveryFailedException
      */
     protected abstract function sendMessage(ShortMessageInterface $message);
+
+    /**
+     * @return mixed
+     */
+    private  function getLastReason()
+    {
+        return $this->last_reason;
+    }
+
+    /**
+     * @param mixed $last_reason
+     */
+    protected function setLastReason($last_reason)
+    {
+        $this->last_reason = $last_reason;
+    }
 } 

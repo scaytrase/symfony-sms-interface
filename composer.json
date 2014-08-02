@@ -1,6 +1,6 @@
 {
     "name": "scaytrase/symfony-sms-interface",
-    "description": "Dummy bundle for sending sms",
+    "description": "Symfony2 Bundle with simple interface for sending sms",
     "minimum-stability": "dev",
     "license": "GPLv2",
     "authors": [
