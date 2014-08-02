@@ -28,6 +28,7 @@ require: "scaytrase/symfony-sms-interface": "~1.2.0"
 ### app/AppKernel.php
 
 update your kernel bundle requirements as follows:
+
 ```
 $bundles = array(
     ....
@@ -36,3 +37,30 @@ $bundles = array(
     );
 ```
 
+## Configuration
+
+Basic interface supports two optional parameters:
+
+```
+sms_delivery:
+    disable_delivery: true # disables actual delivery making every send return successful result. use profiler to get message details
+    delivery_recipient: null # when not null - sends every message to the specified recipient, ignoring actual recipient of the message.
+```
+
+## Usage
+
+To use this interface you must create a message class implementing  ``ShortMessageInterface`` and extend abstract MessageDeliveryService with your own delivery api service. As soon as you a ready to go, you must specify sender class via ``sms_delivery.class`` parameter.
+ 
+ Refer [DummyMessageDeliveryService](src/ScayTrase/Utils/SMSDeliveryBundle/Service/DummySender/DummyMessageDeliveryService.php) as an example. It is also set as a default delivery service for quick start usage.
+
+
+### Example
+
+```
+public function sendSmsAction(){
+  $message = new YourMessage('5552368','Help!')
+  $sender = $this->get('sms_delivery.sender');
+  $result = $sender->send($message);
+  return new Response('Delivery '. $result ? 'successful' ; 'failed');
+}
+```

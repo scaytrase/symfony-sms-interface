@@ -12,18 +12,38 @@ namespace ScayTrase\Utils\SMSDeliveryBundle\Service;
 use ScayTrase\Utils\SMSDeliveryBundle\Exception\DeliveryFailedException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Class MessageDeliveryService
+ * @package ScayTrase\Utils\SMSDeliveryBundle\Service
+ * Basic sender service class. Implement sendMessage() method with actual 3rd-party SMS sending API interaction.
+ */
 abstract class MessageDeliveryService
 {
     /** @var  ContainerInterface */
     private $container;
+    /** @var string Last delivery reason */
     private $last_reason = null;
+    /**
+     * @var array
+     * Array of delivery records with message,status and reason fields
+     * Message field implements ShortMessageInterface
+     */
     private $message_collector = array();
 
+    /**
+     * @param ContainerInterface $container
+     * Default construcitr
+     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
+    /**
+     * @return array
+     * @return mixed
+     * Return all data that collector wants
+     */
     public function getCollectorData()
     {
         return array(
@@ -34,7 +54,7 @@ abstract class MessageDeliveryService
 
     /**
      * @param ShortMessageInterface $message
-     * @return boolean true if delivery was success or disabled via config
+     * @return boolean True if delivery was success or disabled via config
      */
     public function send(ShortMessageInterface $message)
     {
@@ -78,11 +98,13 @@ abstract class MessageDeliveryService
      * @param ShortMessageInterface $message
      * @return bool
      * @throws DeliveryFailedException
+     * Actual sending message. Implementation depends on used service.
      */
     protected abstract function sendMessage(ShortMessageInterface $message);
 
     /**
      * @return mixed
+     * Return last delivery reason
      */
     private  function getLastReason()
     {
@@ -91,6 +113,7 @@ abstract class MessageDeliveryService
 
     /**
      * @param mixed $last_reason
+     * Sets last delivery reason
      */
     protected function setLastReason($last_reason)
     {
