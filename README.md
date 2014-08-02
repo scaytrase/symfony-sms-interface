@@ -22,7 +22,7 @@ Installation is available via Composer
 
 
 ```
-require: "scaytrase/symfony-sms-interface": "~1.2.0"
+require: "scaytrase/symfony-sms-interface": "~0.2.0"
 ```
 
 ### app/AppKernel.php
