@@ -2,7 +2,6 @@
 
 namespace ScayTrase\Utils\SMSDeliveryBundle\DependencyInjection;
 
-use Symfony\Component\Config\Definition\BooleanNode;
 use Symfony\Component\Config\Definition\Builder\BooleanNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\ScalarNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -31,10 +30,6 @@ class Configuration implements ConfigurationInterface
                 ->append($delivery_recipient->defaultNull()->info('Recipient for messages for testing purposes'))
             ->end()
             ;
-
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
 
         return $treeBuilder;
     }
