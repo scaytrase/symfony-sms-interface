@@ -9,11 +9,11 @@
 namespace ScayTrase\Utils\SMSDeliveryBundle\Features\Context;
 
 use PHPUnit_Framework_Assert;
-use ScayTrase\Behat\Context\SymfonyContext;
+use ScayTrase\Behat\Context\RawSymfonyContext;
 use ScayTrase\Utils\SMSDeliveryBundle\DataCollector\MessageDeliveryDataCollector;
 use ScayTrase\Utils\SMSDeliveryBundle\Service\ShortMessageInterface;
 
-class FeatureContext extends SymfonyContext
+class FeatureContext extends RawSymfonyContext
 {
     private $code = null;
 
@@ -50,4 +50,17 @@ class FeatureContext extends SymfonyContext
         $value = $this->fixStepArgument($this->code);
         $this->getSession()->getPage()->fillField($field, $value);
     }
+
+    /**
+     * Returns fixed step argument (with \\" replaced back to ").
+     *
+     * @param string $argument
+     *
+     * @return string
+     */
+    protected function fixStepArgument($argument)
+    {
+        return str_replace('\\"', '"', $argument);
+    }
+
 }
