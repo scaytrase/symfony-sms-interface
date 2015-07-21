@@ -8,7 +8,6 @@
 
 namespace ScayTrase\SmsDeliveryBundle\Service;
 
-
 use ScayTrase\SmsDeliveryBundle\DataCollector\MessageDeliveryDataCollector;
 use ScayTrase\SmsDeliveryBundle\Exception\DeliveryFailedException;
 use ScayTrase\SmsDeliveryBundle\Transport\TransportInterface;
@@ -18,7 +17,7 @@ use ScayTrase\SmsDeliveryBundle\Transport\TransportInterface;
  * @package ScayTrase\Utils\SMSDeliveryBundle\Service
  * Basic sender service class. Implement sendMessage() method with actual 3rd-party SMS sending API interaction.
  */
-abstract class MessageDeliveryService
+class MessageDeliveryService
 {
     /** @var  TransportInterface */
     protected $transport;
@@ -32,12 +31,12 @@ abstract class MessageDeliveryService
     /**
      * @param TransportInterface $transport
      * @param bool $deliveryDisabled
-     * @param null $recipientOverride
+     * @param null|string $recipientOverride
      * @param MessageDeliveryDataCollector $collector
      */
     public function __construct(
         TransportInterface $transport,
-        $deliveryDisabled = true,
+        $deliveryDisabled = false,
         $recipientOverride = null,
         MessageDeliveryDataCollector $collector = null
     ) {
@@ -62,6 +61,7 @@ abstract class MessageDeliveryService
                     'reason' => 'sms_delivery.disable_delivery is true',
                 ));
             }
+
             return true;
         }
 

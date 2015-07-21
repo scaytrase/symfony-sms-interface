@@ -1,5 +1,7 @@
 parameters:
     sms_delivery.transport: @sms_delivery.dummy_sender
+    sms_delivery.disable_delivery: false
+    sms_delivery.delivery_recipient: null
 
 services:
     sms_delivery.dummy_sender:
@@ -7,8 +9,11 @@ services:
         arguments: [@service_container]
 
     sms_delivery.sender:
-        class: %sms_delivery.class%
-        arguments: [@service_container]
+        class: ScayTrase\SmsDeliveryBundle\Service\MessageDeliveryService
+        arguments:
+        - %sms_delivery.transport%
+        - %sms_delivery.disable_delivery%
+        - %sms_delivery.delivery_recipient%
 
     data_collector.sms_delivery.data_collector:
         class: ScayTrase\SmsDeliveryBundle\DataCollector\MessageDeliveryDataCollector

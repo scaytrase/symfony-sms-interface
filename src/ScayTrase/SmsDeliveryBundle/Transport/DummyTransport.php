@@ -14,6 +14,17 @@ use ScayTrase\SmsDeliveryBundle\Service\ShortMessageInterface;
 
 class DummyTransport implements TransportInterface
 {
+    private $debug = true;
+
+    /**
+     * DummyTransport constructor.
+     * @param bool $debug
+     */
+    public function __construct($debug = true)
+    {
+        $this->debug = $debug;
+    }
+
     /**
      * @param ShortMessageInterface $message
      * @return boolean
@@ -22,6 +33,11 @@ class DummyTransport implements TransportInterface
      */
     public function send(ShortMessageInterface $message)
     {
+        if ($this->debug) {
+            $message->getBody();
+            $message->getRecipient();
+        }
+
         return false;
     }
 }

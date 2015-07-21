@@ -43,7 +43,7 @@ class MessageDeliveryDataCollector extends DataCollector
 
     public function putMessageInfo(array $data)
     {
-        $this->data['messages'] = $data;
+        $this->data[] = $data;
     }
 
     public function getData()
