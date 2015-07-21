@@ -1,5 +1,5 @@
 parameters:
-    sms_delivery.transport: @sms_delivery.dummy_sender
+    sms_delivery.transport: sms_delivery.dummy_sender
     sms_delivery.disable_delivery: false
     sms_delivery.delivery_recipient: null
 
