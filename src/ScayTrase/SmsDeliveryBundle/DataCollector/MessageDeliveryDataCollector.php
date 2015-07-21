@@ -9,12 +9,25 @@
 namespace ScayTrase\SmsDeliveryBundle\DataCollector;
 
 
+use ScayTrase\SmsDeliveryBundle\Service\MessageDeliveryService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 
 class MessageDeliveryDataCollector extends DataCollector
 {
+    /** @var  MessageDeliveryService */
+    private $sender;
+
+    /**
+     * MessageDeliveryDataCollector constructor.
+     * @param MessageDeliveryService $sender
+     */
+    public function __construct(MessageDeliveryService $sender)
+    {
+        $this->sender = $sender;
+    }
+
     /**
      * Collects data for the given Request and Response.
      *
@@ -26,7 +39,7 @@ class MessageDeliveryDataCollector extends DataCollector
      */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
-        return;
+        return $this->data = $this->sender->getProfile();
     }
 
     /**
@@ -39,11 +52,6 @@ class MessageDeliveryDataCollector extends DataCollector
     public function getName()
     {
         return 'sms_delivery.data_collector';
-    }
-
-    public function putMessageInfo(array $data)
-    {
-        $this->data[] = $data;
     }
 
     public function getData()

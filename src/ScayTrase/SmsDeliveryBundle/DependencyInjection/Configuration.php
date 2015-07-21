@@ -24,7 +24,7 @@ class Configuration implements ConfigurationInterface
 
         $disable_delivery = (new BooleanNodeDefinition('disable_delivery'));
         $delivery_recipient = (new ScalarNodeDefinition('delivery_recipient'));
-        $sender = (new ScalarNodeDefinition('sender'));
+        $sender = (new ScalarNodeDefinition('transport'));
 
         $rootNode
             ->children()

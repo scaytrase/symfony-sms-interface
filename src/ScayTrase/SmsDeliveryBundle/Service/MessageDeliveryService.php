@@ -8,7 +8,6 @@
 
 namespace ScayTrase\SmsDeliveryBundle\Service;
 
-use ScayTrase\SmsDeliveryBundle\DataCollector\MessageDeliveryDataCollector;
 use ScayTrase\SmsDeliveryBundle\Exception\DeliveryFailedException;
 use ScayTrase\SmsDeliveryBundle\Transport\TransportInterface;
 
@@ -25,25 +24,23 @@ class MessageDeliveryService
     private $deliveryDisabled;
     /** @var  string */
     private $recipientOverride;
-    /** @var  MessageDeliveryDataCollector|null */
-    private $dataCollector;
+    /** @var  array[] */
+    private $profile = array();
 
     /**
      * @param TransportInterface $transport
      * @param bool $deliveryDisabled
      * @param null|string $recipientOverride
-     * @param MessageDeliveryDataCollector $collector
      */
     public function __construct(
         TransportInterface $transport,
         $deliveryDisabled = false,
-        $recipientOverride = null,
-        MessageDeliveryDataCollector $collector = null
-    ) {
+        $recipientOverride = null
+    )
+    {
         $this->transport = $transport;
         $this->deliveryDisabled = $deliveryDisabled;
         $this->recipientOverride = $recipientOverride;
-        $this->dataCollector = $collector;
     }
 
     /**
@@ -53,14 +50,13 @@ class MessageDeliveryService
     public function send(ShortMessageInterface $message)
     {
         if ($this->deliveryDisabled === true) {
-            if ($this->dataCollector) {
-                $this->dataCollector->putMessageInfo(array(
-                    'transport' => null,
-                    'message' => $message,
-                    'status' => 'disabled',
-                    'reason' => 'sms_delivery.disable_delivery is true',
-                ));
-            }
+            $this->profile[] = array(
+                'transport' => '/dev/null',
+                'message_class' => get_class($message),
+                'message' => $message,
+                'status' => 'disabled',
+                'reason' => 'sms_delivery.disable_delivery is true',
+            );
 
             return true;
         }
@@ -72,27 +68,33 @@ class MessageDeliveryService
         try {
             $result = $this->transport->send($message);
 
-            if ($this->dataCollector) {
-                $this->dataCollector->putMessageInfo(array(
-                    'transport' => get_class($this->transport),
-                    'message' => $message,
-                    'status' => (true === $result) ? 'success' : 'fail',
-                    'reason' => (true === $result) ? 'OK' : $result
-                ));
-            }
+            $this->profile[] = array(
+                'transport' => get_class($this->transport),
+                'message_class' => get_class($message),
+                'message' => $message,
+                'status' => (true === $result) ? 'success' : 'fail',
+                'reason' => (true === $result) ? 'OK' : $result
+            );
 
             return $result;
         } catch (DeliveryFailedException $e) {
-            if ($this->dataCollector) {
-                $this->dataCollector->putMessageInfo(array(
-                    'transport' => get_class($this->transport),
-                    'message' => $message,
-                    'status' => 'fail',
-                    'reason' => $e->getMessage(),
-                ));
-            }
+            $this->profile[] = array(
+                'transport' => get_class($this->transport),
+                'message_class' => get_class($message),
+                'message' => $message,
+                'status' => 'fail',
+                'reason' => $e->getMessage(),
+            );
 
             return false;
         }
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getProfile()
+    {
+        return $this->profile;
     }
 }

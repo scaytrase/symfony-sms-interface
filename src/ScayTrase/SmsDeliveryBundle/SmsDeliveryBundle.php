@@ -23,7 +23,6 @@ class SmsDeliveryBundle extends Bundle
     {
         parent::build($container);
         $container->addCompilerPass(new TransportCompilerPass());
-        $container->addCompilerPass(new DataCollectorCompilerPass());
     }
 
 }

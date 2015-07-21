@@ -49,6 +49,20 @@ class MessageDeliveryServiceTest extends WebTestCase
         $this->assertTrue($container->hasParameter('sms_delivery.delivery_recipient'));
     }
 
+    /**
+     * @param array|null $config
+     * @return ContainerBuilder
+     */
+    private function buildContainer(array $config = null)
+    {
+        $extension = new SmsDeliveryExtension();
+        $container = new ContainerBuilder();
+        $container->addCompilerPass(new TransportCompilerPass());
+        $extension->load(array((array)$config), $container);
+        $container->compile();
+        return $container;
+    }
+
     public function testBundleConfigurationValues()
     {
         $container = $this->buildContainer(array('disable_delivery' => true, 'delivery_recipient' => '1234567890'));
@@ -91,10 +105,10 @@ class MessageDeliveryServiceTest extends WebTestCase
     {
         $transport = new DummyTransport();
 
-        $collector = new MessageDeliveryDataCollector();
-
         /** @var MessageDeliveryService $sender */
-        $sender = new MessageDeliveryService($transport, true, null, $collector);
+        $sender = new MessageDeliveryService($transport, true, null);
+        $collector = new MessageDeliveryDataCollector($sender);
+
         /** @var ShortMessageInterface|\PHPUnit_Framework_MockObject_MockObject $message */
         $message = $this->getMock('ScayTrase\SmsDeliveryBundle\Service\ShortMessageInterface');
 
@@ -120,31 +134,16 @@ class MessageDeliveryServiceTest extends WebTestCase
     {
         /** @var ShortMessageInterface|\PHPUnit_Framework_MockObject_MockObject $message */
         $message = $this->getMock('ScayTrase\SmsDeliveryBundle\Service\ShortMessageInterface');
-        $message->expects($this->once())->method('getRecipient')->willThrowException(new InvalidRecipientDeliveryException('Test exception'));
-        $transport = new DummyTransport();
-        $collector = new MessageDeliveryDataCollector();
 
-        /** @var MessageDeliveryService|\PHPUnit_Framework_MockObject_MockObject $sender */
-        $sender = new MessageDeliveryService($transport, false, null, $collector);
+        $transport = new DummyTransport();
+        $sender = new MessageDeliveryService($transport, false, null);
+        $collector = new MessageDeliveryDataCollector($sender);
+
 
         $this->assertFalse($sender->send($message));
         $collector->collect(new Request(), new Response());
         $this->assertEquals(1, count($collector->getData()));
 
-        $this->assertEquals('Test exception', $collector->getData()[0]['reason']);
-    }
-
-    /**
-     * @param array|null $config
-     * @return ContainerBuilder
-     */
-    private function buildContainer(array $config = null)
-    {
-        $extension = new SmsDeliveryExtension();
-        $container = new ContainerBuilder();
-        $container->addCompilerPass(new TransportCompilerPass());
-        $extension->load(array((array)$config), $container);
-        $container->compile();
-        return $container;
+        $this->assertEquals('Sending not configured', $collector->getData()[0]['reason']);
     }
 }

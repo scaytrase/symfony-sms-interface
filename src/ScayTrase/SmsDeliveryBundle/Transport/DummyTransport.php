@@ -33,11 +33,6 @@ class DummyTransport implements TransportInterface
      */
     public function send(ShortMessageInterface $message)
     {
-        if ($this->debug) {
-            $message->getBody();
-            $message->getRecipient();
-        }
-
-        return false;
+        throw new DeliveryFailedException('Sending not configured');
     }
 }
