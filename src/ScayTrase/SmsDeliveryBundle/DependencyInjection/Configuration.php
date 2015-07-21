@@ -1,6 +1,6 @@
 <?php
 
-namespace ScayTrase\Utils\SMSDeliveryBundle\DependencyInjection;
+namespace ScayTrase\SmsDeliveryBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\BooleanNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\ScalarNodeDefinition;
@@ -24,12 +24,14 @@ class Configuration implements ConfigurationInterface
 
         $disable_delivery = (new BooleanNodeDefinition('disable_delivery'));
         $delivery_recipient = (new ScalarNodeDefinition('delivery_recipient'));
+        $sender = (new ScalarNodeDefinition('sender'));
+
         $rootNode
             ->children()
+                ->append($sender->defaultValue('@sms_delivery.dummy_sender')->info('Sender transport service'))
                 ->append($disable_delivery->defaultFalse()->info('Disables actual delivery for testing purposes'))
                 ->append($delivery_recipient->defaultNull()->info('Recipient for messages for testing purposes'))
-            ->end()
-            ;
+            ->end();
 
         return $treeBuilder;
     }

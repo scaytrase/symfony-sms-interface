@@ -1,0 +1,17 @@
+parameters:
+    sms_delivery.transport: @sms_delivery.dummy_sender
+
+services:
+    sms_delivery.dummy_sender:
+        class: ScayTrase\SmsDeliveryBundle\Transport\DummyTransport
+        arguments: [@service_container]
+
+    sms_delivery.sender:
+        class: %sms_delivery.class%
+        arguments: [@service_container]
+
+    data_collector.sms_delivery.data_collector:
+        class: ScayTrase\SmsDeliveryBundle\DataCollector\MessageDeliveryDataCollector
+        arguments: ['@sms_delivery.sender']
+        tags:
+            - { name: data_collector, template: "SMSDeliveryBundle:DataCollector:data_collector", id: "sms_delivery.data_collector" }

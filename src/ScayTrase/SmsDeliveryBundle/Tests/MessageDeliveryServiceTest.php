@@ -6,14 +6,9 @@
  * Time: 14:01
  */
 
-namespace ScayTrase\Utils\SMSDeliveryBundle\Tests;
+namespace ScayTrase\SmsDeliveryBundle\Tests;
 
-
-use ScayTrase\Utils\SMSDeliveryBundle\DataCollector\MessageDeliveryDataCollector;
-use ScayTrase\Utils\SMSDeliveryBundle\DependencyInjection\SMSDeliveryExtension;
-use ScayTrase\Utils\SMSDeliveryBundle\Exception\DeliveryFailedException;
-use ScayTrase\Utils\SMSDeliveryBundle\Service\MessageDeliveryService;
-use ScayTrase\Utils\SMSDeliveryBundle\Service\ShortMessageInterface;
+use ScayTrase\SmsDeliveryBundle\DependencyInjection\SmsDeliveryExtension;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +18,7 @@ class MessageDeliveryServiceTest extends WebTestCase
 {
 
     /**
-     * @var SMSDeliveryExtension
+     * @var SmsDeliveryExtension
      */
     private $extension;
 
@@ -62,7 +57,8 @@ class MessageDeliveryServiceTest extends WebTestCase
      */
     public function testBundleConfiguration($config)
     {
-        $this->extension->load(array($config), $container = $this->getContainer());
+        $container = $this->getContainer();
+        $this->extension->load(array($config), $container);
 
         $this->assertTrue($container->hasParameter($this->root . '.disable_delivery'));
         $this->assertTrue($container->hasParameter($this->root . '.delivery_recipient'));
@@ -73,11 +69,12 @@ class MessageDeliveryServiceTest extends WebTestCase
         $this->extension->load(array(array('disable_delivery' => true)), $container = $this->getContainer());
 
         /** @var MessageDeliveryService|\PHPUnit_Framework_MockObject_MockObject $sender */
-        $sender = $this->getMock('ScayTrase\Utils\SMSDeliveryBundle\Service\MessageDeliveryService', array('sendMessage'), array($container));
+        $sender = $this->getMock('ScayTrase\SmsDeliveryBundle\Service\MessageDeliveryService',
+            array('sendMessage'), array($container));
         $sender->expects($this->never())->method('sendMessage');
 
         /** @var ShortMessageInterface|\PHPUnit_Framework_MockObject_MockObject $message */
-        $message = $this->getMock('ScayTrase\Utils\SMSDeliveryBundle\Service\ShortMessageInterface');
+        $message = $this->getMock('ScayTrase\SmsDeliveryBundle\Service\ShortMessageInterface');
 
         $message->expects($this->never())->method('getBody');
         $message->expects($this->never())->method('setRecipient');
@@ -91,11 +88,12 @@ class MessageDeliveryServiceTest extends WebTestCase
         $this->extension->load(array(array('delivery_recipient' => '1234567890')), $container = $this->getContainer());
 
         /** @var MessageDeliveryService|\PHPUnit_Framework_MockObject_MockObject $sender */
-        $sender = $this->getMock('ScayTrase\Utils\SMSDeliveryBundle\Service\MessageDeliveryService', array('sendMessage'), array($container));
+        $sender = $this->getMock('ScayTrase\SmsDeliveryBundle\Service\MessageDeliveryService',
+            array('sendMessage'), array($container));
         $sender->expects($this->once())->method('sendMessage')->willReturn(true);
 
         /** @var ShortMessageInterface|\PHPUnit_Framework_MockObject_MockObject $message */
-        $message = $this->getMock('ScayTrase\Utils\SMSDeliveryBundle\Service\ShortMessageInterface');
+        $message = $this->getMock('ScayTrase\SmsDeliveryBundle\Service\ShortMessageInterface');
 
         $message->expects($this->once())->method('setRecipient');
 
@@ -107,17 +105,18 @@ class MessageDeliveryServiceTest extends WebTestCase
         $this->extension->load(array(), $container = $this->getContainer());
 
         /** @var MessageDeliveryService|\PHPUnit_Framework_MockObject_MockObject $sender */
-        $sender = $this->getMock('ScayTrase\Utils\SMSDeliveryBundle\Service\MessageDeliveryService', array('sendMessage'), array($container));
+        $sender = $this->getMock('ScayTrase\SmsDeliveryBundle\Service\MessageDeliveryService',
+            array('sendMessage'), array($container));
         $sender->expects($this->once())->method('sendMessage')->willReturn(true);
 
         /** @var ShortMessageInterface|\PHPUnit_Framework_MockObject_MockObject $message */
-        $message = $this->getMock('ScayTrase\Utils\SMSDeliveryBundle\Service\ShortMessageInterface');
+        $message = $this->getMock('ScayTrase\SmsDeliveryBundle\Service\ShortMessageInterface');
 
         $this->assertTrue($sender->send($message));
 
         $collector = new MessageDeliveryDataCollector($sender);
         $collector->collect(new Request(), new Response());
-        $this->assertEquals(1, $collector->getMessageCount());
+        $this->assertEquals(1, count($collector->getData()));
     }
 
     public function testPublicService()
@@ -125,8 +124,9 @@ class MessageDeliveryServiceTest extends WebTestCase
         $this->extension->load(array(), $container = $this->getContainer());
 
         /** @var ShortMessageInterface|\PHPUnit_Framework_MockObject_MockObject $message */
-        $message = $this->getMock('ScayTrase\Utils\SMSDeliveryBundle\Service\ShortMessageInterface');
+        $message = $this->getMock('ScayTrase\SmsDeliveryBundle\Service\ShortMessageInterface');
 
+        /** @var MessageDeliveryService $sender */
         $sender = $container->get('sms_delivery.sender');
 
         $this->assertFalse($sender->send($message));
@@ -137,24 +137,25 @@ class MessageDeliveryServiceTest extends WebTestCase
         $this->extension->load(array(), $container = $this->getContainer());
 
         /** @var ShortMessageInterface|\PHPUnit_Framework_MockObject_MockObject $message */
-        $message = $this->getMock('ScayTrase\Utils\SMSDeliveryBundle\Service\ShortMessageInterface');
+        $message = $this->getMock('ScayTrase\SmsDeliveryBundle\Service\ShortMessageInterface');
 
         /** @var MessageDeliveryService|\PHPUnit_Framework_MockObject_MockObject $sender */
-        $sender = $this->getMock('ScayTrase\Utils\SMSDeliveryBundle\Service\MessageDeliveryService', array('sendMessage'), array($container));
+        $sender = $this->getMock('ScayTrase\SmsDeliveryBundle\Service\MessageDeliveryService',
+            array('sendMessage'), array($container));
         $sender->expects($this->once())->method('sendMessage')->willThrowException(new DeliveryFailedException('Test exception'));
 
         $this->assertFalse($sender->send($message));
 
         $collector = new MessageDeliveryDataCollector($sender);
         $collector->collect(new Request(), new Response());
-        $this->assertEquals(1, $collector->getMessageCount());
+        $this->assertEquals(1, count($collector->getData()));
 
-        $this->assertEquals('Test exception'.PHP_EOL,$collector->getRecords()[0]['reason']);
+        $this->assertEquals('Test exception' . PHP_EOL, $collector->getData()[0]['reason']);
     }
 
     protected function getExtension()
     {
-        return new SMSDeliveryExtension();
+        return new SmsDeliveryExtension();
     }
 
     private function getContainer()
@@ -164,4 +165,3 @@ class MessageDeliveryServiceTest extends WebTestCase
         return $container;
     }
 }
- 

@@ -1,6 +1,6 @@
 <?php
 
-namespace ScayTrase\Utils\SMSDeliveryBundle\DependencyInjection;
+namespace ScayTrase\SmsDeliveryBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class SMSDeliveryExtension extends Extension
+class SmsDeliveryExtension extends Extension
 {
     /**
      * {@inheritDoc}
@@ -25,6 +25,11 @@ class SMSDeliveryExtension extends Extension
         foreach ($config as $key => $value) {
             $container->setParameter('sms_delivery.' . $key, $value);
         }
+
+        $container->getDefinition('sms_delivery.sender')->replaceArgument(
+            0,
+            $container->getParameter('sms_delivery.transport')
+        );
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
