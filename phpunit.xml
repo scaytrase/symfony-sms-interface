@@ -5,7 +5,7 @@
         backupStaticAttributes="false"
         bootstrap="vendor/autoload.php"
         cacheTokens="false"
-        colors="false"
+        colors="true"
         convertErrorsToExceptions="true"
         convertNoticesToExceptions="true"
         convertWarningsToExceptions="true"
@@ -26,18 +26,9 @@
     </php>
     <testsuites>
         <testsuite name="All tests">
-            <directory>src/*Bundle/Tests</directory>
-            <directory>src/*/*Bundle/Tests</directory>
-            <directory>src/*/*/*Bundle/Tests</directory>
+            <directory>src/</directory>
         </testsuite>
     </testsuites>
-    <filter>
-        <blacklist>
-            <directory>vendor/</directory>
-            <directory>build/</directory>
-            <directory>target/</directory>
-        </blacklist>
-    </filter>
     <logging>
         <log type="coverage-html" target="build/coverage"/>
         <log type="coverage-clover" target="build/logs/clover.xml"/>

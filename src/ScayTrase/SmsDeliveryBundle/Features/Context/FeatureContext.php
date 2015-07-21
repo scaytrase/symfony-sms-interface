@@ -6,12 +6,12 @@
  * Time: 23:14
  */
 
-namespace ScayTrase\Utils\SMSDeliveryBundle\Features\Context;
+namespace ScayTrase\SmsDeliveryBundle\Features\Context;
 
 use PHPUnit_Framework_Assert;
 use ScayTrase\Behat\Context\RawSymfonyContext;
-use ScayTrase\Utils\SMSDeliveryBundle\DataCollector\MessageDeliveryDataCollector;
-use ScayTrase\Utils\SMSDeliveryBundle\Service\ShortMessageInterface;
+use ScayTrase\SmsDeliveryBundle\DataCollector\MessageDeliveryDataCollector;
+use ScayTrase\SmsDeliveryBundle\Service\ShortMessageInterface;
 
 class FeatureContext extends RawSymfonyContext
 {

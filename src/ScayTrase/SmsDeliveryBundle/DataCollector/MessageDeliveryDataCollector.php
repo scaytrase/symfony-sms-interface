@@ -6,28 +6,26 @@
  * Time: 15:24
  */
 
-namespace ScayTrase\Utils\SMSDeliveryBundle\DataCollector;
+namespace ScayTrase\SmsDeliveryBundle\DataCollector;
 
 
-use ScayTrase\Utils\SMSDeliveryBundle\Service\MessageDeliveryService;
+use ScayTrase\SmsDeliveryBundle\Service\MessageDeliveryService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 
 class MessageDeliveryDataCollector extends DataCollector
 {
-
-    /** @var MessageDeliveryService */
-    private $service;
+    /** @var  MessageDeliveryService */
+    private $sender;
 
     /**
-     * Constructor.
-     *
-     * @param MessageDeliveryService $service
+     * MessageDeliveryDataCollector constructor.
+     * @param MessageDeliveryService $sender
      */
-    public function __construct(MessageDeliveryService $service)
+    public function __construct(MessageDeliveryService $sender)
     {
-        $this->service = $service;
+        $this->sender = $sender;
     }
 
     /**
@@ -41,25 +39,7 @@ class MessageDeliveryDataCollector extends DataCollector
      */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
-        $this->data = $this->service->getCollectorData();
-    }
-
-    public function getRecords()
-    {
-        return $this->data['messages'];
-    }
-
-    public function getService()
-    {
-        return $this->data['service'];
-    }
-
-    /**
-     * @return int
-     */
-    public function getMessageCount()
-    {
-        return count($this->data['messages']);
+        return $this->data = $this->sender->getProfile();
     }
 
     /**
@@ -72,5 +52,10 @@ class MessageDeliveryDataCollector extends DataCollector
     public function getName()
     {
         return 'sms_delivery.data_collector';
+    }
+
+    public function getData()
+    {
+        return $this->data;
     }
 }

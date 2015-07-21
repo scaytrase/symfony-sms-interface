@@ -1,8 +1,8 @@
 {
-    "name": "scaytrase/symfony-sms-interface",
-    "description": "Symfony2 Bundle with simple interface for sending sms",
-    "minimum-stability": "dev",
-    "license": "GPLv2",
+    "name": "scaytrase/symfony-sms-delivery-bundle",
+    "description": "Symfony2 Bundle with service for sending sms",
+    "minimum-stability": "stable",
+    "license": "GPL-2.0+",
     "authors": [
         {
             "name": "Pavel Batanov",
@@ -14,15 +14,12 @@
         "symfony/symfony": "~2.4"
     },
     "require-dev": {
-        "scaytrase/symfony-test-utils": "dev-master",
-        "phpunit/phpunit": "~4.3",
-        "behat/behat": "~3.0",
-        "behat/mink-extension": "dev-master",
-        "behat/symfony2-extension": "dev-master"
+        "phpunit/phpunit": "~4.6@stable",
+        "scaytrase/symfony-test-utils": "~1.0"
     },
     "autoload": {
         "psr-0": {
-            "ScayTrase\\Utils\\SMSDeliveryBundle": "src/"
+            "": "src/"
         }
     }
 }

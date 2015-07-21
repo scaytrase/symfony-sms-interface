@@ -5,7 +5,7 @@
  * Date: 30.07.2014
  * Time: 14:10
  */
-namespace ScayTrase\Utils\SMSDeliveryBundle\Service;
+namespace ScayTrase\SmsDeliveryBundle\Service;
 
 interface ShortMessageInterface
 {
