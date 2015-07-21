@@ -8,7 +8,6 @@
 
 namespace ScayTrase\SmsDeliveryBundle\Transport;
 
-
 use ScayTrase\SmsDeliveryBundle\Exception\DeliveryFailedException;
 use ScayTrase\SmsDeliveryBundle\Service\ShortMessageInterface;
 

@@ -11,16 +11,14 @@ namespace ScayTrase\SmsDeliveryBundle\Tests;
 use ScayTrase\SmsDeliveryBundle\DataCollector\MessageDeliveryDataCollector;
 use ScayTrase\SmsDeliveryBundle\DependencyInjection\Compiler\TransportCompilerPass;
 use ScayTrase\SmsDeliveryBundle\DependencyInjection\SmsDeliveryExtension;
-use ScayTrase\SmsDeliveryBundle\Exception\InvalidRecipientDeliveryException;
 use ScayTrase\SmsDeliveryBundle\Service\MessageDeliveryService;
 use ScayTrase\SmsDeliveryBundle\Service\ShortMessageInterface;
 use ScayTrase\SmsDeliveryBundle\Transport\DummyTransport;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class MessageDeliveryServiceTest extends WebTestCase
+class MessageDeliveryServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @return array configurations array

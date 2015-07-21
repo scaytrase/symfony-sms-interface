@@ -8,7 +8,6 @@
 
 namespace ScayTrase\SmsDeliveryBundle\DataCollector;
 
-
 use ScayTrase\SmsDeliveryBundle\Service\MessageDeliveryService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,7 +38,7 @@ class MessageDeliveryDataCollector extends DataCollector
      */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
-        return $this->data = $this->sender->getProfile();
+        $this->data = $this->sender->getProfile();
     }
 
     /**
