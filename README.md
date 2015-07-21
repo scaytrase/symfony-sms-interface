@@ -1,5 +1,5 @@
 
-# symfony-sms-interface
+# scaytrase/symfony-sms-delivery-bundle
 [![Latest Stable Version](https://poser.pugx.org/scaytrase/symfony-sms-interface/v/stable.svg)](https://packagist.org/packages/scaytrase/symfony-sms-interface) [![Total Downloads](https://poser.pugx.org/scaytrase/symfony-sms-interface/downloads.svg)](https://packagist.org/packages/scaytrase/symfony-sms-interface) [![Latest Unstable Version](https://poser.pugx.org/scaytrase/symfony-sms-interface/v/unstable.svg)](https://packagist.org/packages/scaytrase/symfony-sms-interface) [![License](https://poser.pugx.org/scaytrase/symfony-sms-interface/license.svg)](https://packagist.org/packages/scaytrase/symfony-sms-interface)
 
 [![Monthly Downloads](https://poser.pugx.org/scaytrase/symfony-sms-interface/d/monthly.png)](https://packagist.org/packages/scaytrase/symfony-sms-interface)
