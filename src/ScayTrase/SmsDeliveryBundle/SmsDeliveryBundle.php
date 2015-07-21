@@ -1,6 +1,6 @@
 <?php
 
-namespace ScayTrase\SMSDeliveryBundle;
+namespace ScayTrase\SmsDeliveryBundle;
 
 use ScayTrase\SmsDeliveryBundle\DependencyInjection\Compiler\DataCollectorCompilerPass;
 use ScayTrase\SmsDeliveryBundle\DependencyInjection\Compiler\TransportCompilerPass;
