@@ -9,6 +9,7 @@
 namespace ScayTrase\SmsDeliveryBundle\Tests;
 
 use ScayTrase\SmsDeliveryBundle\DataCollector\MessageDeliveryDataCollector;
+use ScayTrase\SmsDeliveryBundle\DependencyInjection\Compiler\TransportCompilerPass;
 use ScayTrase\SmsDeliveryBundle\DependencyInjection\SmsDeliveryExtension;
 use ScayTrase\SmsDeliveryBundle\Exception\InvalidRecipientDeliveryException;
 use ScayTrase\SmsDeliveryBundle\Service\MessageDeliveryService;
@@ -141,6 +142,7 @@ class MessageDeliveryServiceTest extends WebTestCase
     {
         $extension = new SmsDeliveryExtension();
         $container = new ContainerBuilder();
+        $container->addCompilerPass(new TransportCompilerPass());
         $extension->load(array((array)$config), $container);
         $container->compile();
         return $container;
