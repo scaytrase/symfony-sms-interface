@@ -71,7 +71,7 @@ class MessageDeliveryServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testDisabledDelivery()
     {
-        $transport = new DummyTransport(false);
+        $transport = new DummyTransport();
         /** @var MessageDeliveryService $sender */
         $sender = new MessageDeliveryService($transport, true);
 
