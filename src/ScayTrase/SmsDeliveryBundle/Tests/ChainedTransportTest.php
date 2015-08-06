@@ -17,10 +17,10 @@ class ChainedTransportTest extends \PHPUnit_Framework_TestCase
     public function testSuccessfulChain()
     {
         /** @var TransportInterface|\PHPUnit_Framework_MockObject_MockObject $transport */
-        $transport = $this->getMock(TransportInterface::class);
-        $transport->expects($this->at(0))->method('send')->willReturn(false);
-        $transport->expects($this->at(1))->method('send')->willReturn(false);
-        $transport->expects($this->at(2))->method('send')->willReturn(true);
+        $transport = $this->getMock('ScayTrase\SmsDeliveryBundle\Transport\TransportInterface');
+        $transport->expects(self::at(0))->method('send')->willReturn(false);
+        $transport->expects(self::at(1))->method('send')->willReturn(false);
+        $transport->expects(self::at(2))->method('send')->willReturn(true);
 
         /** @var ShortMessageInterface|\PHPUnit_Framework_MockObject_MockObject $message */
         $message = $this->getMock('ScayTrase\SmsDeliveryBundle\Service\ShortMessageInterface');
@@ -36,9 +36,9 @@ class ChainedTransportTest extends \PHPUnit_Framework_TestCase
     public function testFailedChain()
     {
         /** @var TransportInterface|\PHPUnit_Framework_MockObject_MockObject $transport */
-        $transport = $this->getMock(TransportInterface::class);
-        $transport->expects($this->at(0))->method('send')->willReturn(false);
-        $transport->expects($this->at(1))->method('send')->willReturn(false);
+        $transport = $this->getMock('ScayTrase\SmsDeliveryBundle\Transport\TransportInterface');
+        $transport->expects(self::at(0))->method('send')->willReturn(false);
+        $transport->expects(self::at(1))->method('send')->willReturn(false);
 
         /** @var ShortMessageInterface|\PHPUnit_Framework_MockObject_MockObject $message */
         $message = $this->getMock('ScayTrase\SmsDeliveryBundle\Service\ShortMessageInterface');

@@ -17,12 +17,12 @@ class ResendOnFailureTransportTest extends \PHPUnit_Framework_TestCase
     public function testResending()
     {
         /** @var TransportInterface|\PHPUnit_Framework_MockObject_MockObject $transport */
-        $transport = $this->getMock(TransportInterface::class);
-        $transport->expects($this->at(0))->method('send')->willReturn(false);
-        $transport->expects($this->at(1))->method('send')->willReturn(false);
-        $transport->expects($this->at(2))->method('send')->willReturn(false);
-        $transport->expects($this->at(3))->method('send')->willReturn(false);
-        $transport->expects($this->at(4))->method('send')->willReturn(true);
+        $transport = $this->getMock('ScayTrase\SmsDeliveryBundle\Transport\TransportInterface');
+        $transport->expects(self::at(0))->method('send')->willReturn(false);
+        $transport->expects(self::at(1))->method('send')->willReturn(false);
+        $transport->expects(self::at(2))->method('send')->willReturn(false);
+        $transport->expects(self::at(3))->method('send')->willReturn(false);
+        $transport->expects(self::at(4))->method('send')->willReturn(true);
 
         /** @var ShortMessageInterface|\PHPUnit_Framework_MockObject_MockObject $message */
         $message = $this->getMock('ScayTrase\SmsDeliveryBundle\Service\ShortMessageInterface');
