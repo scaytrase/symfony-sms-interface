@@ -42,9 +42,9 @@ class MessageDeliveryServiceTest extends \PHPUnit_Framework_TestCase
     {
         $container = $this->buildContainer($config);
 
-        $this->assertTrue($container->hasParameter('sms_delivery.transport'));
-        $this->assertTrue($container->hasParameter('sms_delivery.disable_delivery'));
-        $this->assertTrue($container->hasParameter('sms_delivery.delivery_recipient'));
+        self::assertTrue($container->hasParameter('sms_delivery.transport'));
+        self::assertTrue($container->hasParameter('sms_delivery.disable_delivery'));
+        self::assertTrue($container->hasParameter('sms_delivery.delivery_recipient'));
     }
 
     /**
@@ -65,8 +65,8 @@ class MessageDeliveryServiceTest extends \PHPUnit_Framework_TestCase
     {
         $container = $this->buildContainer(array('disable_delivery' => true, 'delivery_recipient' => '1234567890'));
 
-        $this->assertEquals(true, $container->getParameter('sms_delivery.disable_delivery'));
-        $this->assertEquals('1234567890', $container->getParameter('sms_delivery.delivery_recipient'));
+        self::assertEquals(true, $container->getParameter('sms_delivery.disable_delivery'));
+        self::assertEquals('1234567890', $container->getParameter('sms_delivery.delivery_recipient'));
     }
 
     public function testDisabledDelivery()
@@ -78,11 +78,11 @@ class MessageDeliveryServiceTest extends \PHPUnit_Framework_TestCase
         /** @var ShortMessageInterface|\PHPUnit_Framework_MockObject_MockObject $message */
         $message = $this->getMock('ScayTrase\SmsDeliveryBundle\Service\ShortMessageInterface');
 
-        $message->expects($this->never())->method('getBody');
-        $message->expects($this->never())->method('setRecipient');
-        $message->expects($this->never())->method('getRecipient');
+        $message->expects(self::never())->method('getBody');
+        $message->expects(self::never())->method('setRecipient');
+        $message->expects(self::never())->method('getRecipient');
 
-        $this->assertTrue($sender->send($message));
+        self::assertTrue($sender->send($message));
     }
 
     public function testDefaultRecipientDelivery()
@@ -94,7 +94,7 @@ class MessageDeliveryServiceTest extends \PHPUnit_Framework_TestCase
 
         /** @var ShortMessageInterface|\PHPUnit_Framework_MockObject_MockObject $message */
         $message = $this->getMock('ScayTrase\SmsDeliveryBundle\Service\ShortMessageInterface');
-        $message->expects($this->once())->method('setRecipient');
+        $message->expects(self::once())->method('setRecipient');
 
         $sender->send($message);
     }
@@ -110,9 +110,9 @@ class MessageDeliveryServiceTest extends \PHPUnit_Framework_TestCase
         /** @var ShortMessageInterface|\PHPUnit_Framework_MockObject_MockObject $message */
         $message = $this->getMock('ScayTrase\SmsDeliveryBundle\Service\ShortMessageInterface');
 
-        $this->assertTrue($sender->send($message));
+        self::assertTrue($sender->send($message));
         $collector->collect(new Request(), new Response());
-        $this->assertEquals(1, count($collector->getData()));
+        self::assertEquals(1, count($collector->getData()));
     }
 
     public function testPublicService()
@@ -125,7 +125,7 @@ class MessageDeliveryServiceTest extends \PHPUnit_Framework_TestCase
         /** @var MessageDeliveryService $sender */
         $sender = $container->get('sms_delivery.sender');
 
-        $this->assertFalse($sender->send($message));
+        self::assertFalse($sender->send($message));
     }
 
     public function testExceptionalSender()
@@ -138,10 +138,11 @@ class MessageDeliveryServiceTest extends \PHPUnit_Framework_TestCase
         $collector = new MessageDeliveryDataCollector($sender);
 
 
-        $this->assertFalse($sender->send($message));
+        self::assertFalse($sender->send($message));
         $collector->collect(new Request(), new Response());
-        $this->assertEquals(1, count($collector->getData()));
+        self::assertEquals(1, count($collector->getData()));
 
-        $this->assertEquals('Sending not configured', $collector->getData()[0]['reason']);
+        $data = $collector->getData();
+        self::assertEquals('Sending not configured', $data[0]['reason']);
     }
 }
