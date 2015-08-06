@@ -9,6 +9,8 @@
 namespace ScayTrase\SmsDeliveryBundle\Service;
 
 use ScayTrase\SmsDeliveryBundle\Exception\DeliveryFailedException;
+use ScayTrase\SmsDeliveryBundle\Spool\InstantSpool;
+use ScayTrase\SmsDeliveryBundle\Spool\SpoolInterface;
 use ScayTrase\SmsDeliveryBundle\Transport\TransportInterface;
 
 /**
@@ -26,19 +28,26 @@ class MessageDeliveryService
     private $recipientOverride;
     /** @var  array[] */
     private $profile = array();
+    /** @var SpoolInterface  */
+    private $spool;
 
     /**
      * @param TransportInterface $transport
+     * @param SpoolInterface $spool
      * @param bool $deliveryDisabled
      * @param null|string $recipientOverride
      */
     public function __construct(
         TransportInterface $transport,
+        SpoolInterface $spool = null,
         $deliveryDisabled = false,
         $recipientOverride = null
-    )
-    {
+    ) {
         $this->transport = $transport;
+        $this->spool = $spool;
+        if (!$this->spool) {
+            $this->spool = new InstantSpool();
+        }
         $this->deliveryDisabled = $deliveryDisabled;
         $this->recipientOverride = $recipientOverride;
     }
@@ -66,7 +75,7 @@ class MessageDeliveryService
         }
 
         try {
-            $result = $this->transport->send($message);
+            $result = $this->spool->addMessage($this->transport, $message);
 
             $this->profile[] = array(
                 'transport' => get_class($this->transport),
@@ -88,6 +97,14 @@ class MessageDeliveryService
 
             return false;
         }
+    }
+
+    /**
+     * @return SpoolInterface
+     */
+    public function getSpool()
+    {
+        return $this->spool;
     }
 
     /**

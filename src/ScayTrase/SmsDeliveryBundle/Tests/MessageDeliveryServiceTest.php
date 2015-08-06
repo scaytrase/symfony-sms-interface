@@ -73,7 +73,7 @@ class MessageDeliveryServiceTest extends \PHPUnit_Framework_TestCase
     {
         $transport = new DummyTransport();
         /** @var MessageDeliveryService $sender */
-        $sender = new MessageDeliveryService($transport, true);
+        $sender = new MessageDeliveryService($transport, null, true);
 
         /** @var ShortMessageInterface|\PHPUnit_Framework_MockObject_MockObject $message */
         $message = $this->getMock('ScayTrase\SmsDeliveryBundle\Service\ShortMessageInterface');
@@ -104,7 +104,7 @@ class MessageDeliveryServiceTest extends \PHPUnit_Framework_TestCase
         $transport = new DummyTransport();
 
         /** @var MessageDeliveryService $sender */
-        $sender = new MessageDeliveryService($transport, true, null);
+        $sender = new MessageDeliveryService($transport, null, true, null);
         $collector = new MessageDeliveryDataCollector($sender);
 
         /** @var ShortMessageInterface|\PHPUnit_Framework_MockObject_MockObject $message */
@@ -134,7 +134,7 @@ class MessageDeliveryServiceTest extends \PHPUnit_Framework_TestCase
         $message = $this->getMock('ScayTrase\SmsDeliveryBundle\Service\ShortMessageInterface');
 
         $transport = new DummyTransport();
-        $sender = new MessageDeliveryService($transport, false, null);
+        $sender = new MessageDeliveryService($transport, null, false, null);
         $collector = new MessageDeliveryDataCollector($sender);
 
 

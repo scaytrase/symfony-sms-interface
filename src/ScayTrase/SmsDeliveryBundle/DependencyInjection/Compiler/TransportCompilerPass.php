@@ -27,5 +27,10 @@ class TransportCompilerPass implements CompilerPassInterface
             0,
             $container->getDefinition($container->getParameter('sms_delivery.transport'))
         );
+
+        $container->getDefinition('sms_delivery.sender')->replaceArgument(
+            1,
+            $container->getDefinition($container->getParameter('sms_delivery.spool'))
+        );
     }
 }
