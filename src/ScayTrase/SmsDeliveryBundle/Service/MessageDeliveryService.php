@@ -8,8 +8,9 @@
 
 namespace ScayTrase\SmsDeliveryBundle\Service;
 
-use ScayTrase\SmsDeliveryBundle\Exception\DeliveryFailedException;
+use ScayTrase\SmsDeliveryBundle\Spool\DisabledSpool;
 use ScayTrase\SmsDeliveryBundle\Spool\InstantSpool;
+use ScayTrase\SmsDeliveryBundle\Spool\Package;
 use ScayTrase\SmsDeliveryBundle\Spool\SpoolInterface;
 use ScayTrase\SmsDeliveryBundle\Transport\TransportInterface;
 
@@ -28,7 +29,7 @@ class MessageDeliveryService
     private $recipientOverride;
     /** @var  array[] */
     private $profile = array();
-    /** @var SpoolInterface  */
+    /** @var SpoolInterface */
     private $spool;
 
     /**
@@ -42,61 +43,38 @@ class MessageDeliveryService
         SpoolInterface $spool = null,
         $deliveryDisabled = false,
         $recipientOverride = null
-    ) {
+    )
+    {
         $this->transport = $transport;
         $this->spool = $spool;
-        if (!$this->spool) {
-            $this->spool = new InstantSpool();
-        }
         $this->deliveryDisabled = $deliveryDisabled;
         $this->recipientOverride = $recipientOverride;
+        if (!$this->spool) {
+            $this->spool = $this->deliveryDisabled ? new DisabledSpool() : new InstantSpool();
+        }
     }
 
     /**
      * @param ShortMessageInterface $message
-     * @return boolean True if delivery was success or disabled via config
+     * @return boolean True if package was successfully spooled
      */
-    public function send(ShortMessageInterface $message)
+    public function spool(ShortMessageInterface $message)
     {
-        if ($this->deliveryDisabled === true) {
-            $this->profile[] = array(
-                'transport' => '/dev/null',
-                'message_class' => get_class($message),
-                'message' => $message,
-                'status' => 'disabled',
-                'reason' => 'sms_delivery.disable_delivery is true',
-            );
-
-            return true;
-        }
-
         if (($this->recipientOverride) !== null) {
             $message->setRecipient($this->recipientOverride);
         }
 
-        try {
-            $result = $this->spool->addMessage($this->transport, $message);
+        $package = new Package($this->transport, $message);
+        $this->profile[] = $package;
+        return $this->spool->pushPackage($package);
+    }
 
-            $this->profile[] = array(
-                'transport' => get_class($this->transport),
-                'message_class' => get_class($message),
-                'message' => $message,
-                'status' => (true === $result) ? 'success' : 'fail',
-                'reason' => (true === $result) ? 'OK' : $result
-            );
-
-            return $result;
-        } catch (DeliveryFailedException $e) {
-            $this->profile[] = array(
-                'transport' => get_class($this->transport),
-                'message_class' => get_class($message),
-                'message' => $message,
-                'status' => 'fail',
-                'reason' => $e->getMessage(),
-            );
-
-            return false;
-        }
+    /**
+     * @return bool
+     */
+    public function flush()
+    {
+        return $this->getSpool()->flush();
     }
 
     /**

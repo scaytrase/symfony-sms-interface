@@ -14,12 +14,13 @@ use ScayTrase\SmsDeliveryBundle\Transport\TransportInterface;
 interface SpoolInterface
 {
     /**
-     * @param TransportInterface $transport
-     * @param ShortMessageInterface $message
+     * @param Package $package
+     * @return bool
      */
-    public function addMessage(TransportInterface $transport, ShortMessageInterface $message);
+    public function pushPackage(Package $package);
 
     public function clear();
 
+    /** @return bool */
     public function flush();
 }

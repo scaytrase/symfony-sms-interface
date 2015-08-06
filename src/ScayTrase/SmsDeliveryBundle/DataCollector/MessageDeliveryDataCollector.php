@@ -9,6 +9,7 @@
 namespace ScayTrase\SmsDeliveryBundle\DataCollector;
 
 use ScayTrase\SmsDeliveryBundle\Service\MessageDeliveryService;
+use ScayTrase\SmsDeliveryBundle\Spool\Package;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
@@ -53,6 +54,7 @@ class MessageDeliveryDataCollector extends DataCollector
         return 'sms_delivery.data_collector';
     }
 
+    /** @return Package[] */
     public function getData()
     {
         return $this->data;

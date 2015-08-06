@@ -80,22 +80,22 @@
                 <th scope="col">#</th>
                 <th scope="col">Delivery Status</th>
                 <th scope="col">Delivery Reason</th>
-                <th scope="col">Delivery Transport</th>
+                {#<th scope="col">Delivery Transport</th>#}
                 <th scope="col">Message Recipient</th>
                 <th scope="col">Message Body</th>
-                <th scope="col">Message Class</th>
+                {#<th scope="col">Message Class</th>#}
             </tr>
             </thead>
             <tbody>
-            {% for key,record in collector.data %}
+            {% for key,package in collector.data %}
                 <tr>
                     <td>{{ key }}</td>
-                    <td>{{ record.status }}</td>
-                    <td>{{ record.reason }}</td>
-                    <td>{{ record.transport }}</td>
-                    <td>{{ record.message.recipient }}</td>
-                    <td>{{ record.message.body }}</td>
-                    <td>{{ record.message_class }}</td>
+                    <td>{{ package.status }}</td>
+                    <td>{{ package.reason }}</td>
+                    {#<td>{{ package.record.transport }}</td>#}
+                    <td>{{ package.record.message.recipient }}</td>
+                    <td>{{ package.message.body }}</td>
+                    {#<td>{{ package.message_class }}</td>#}
                 </tr>
             {% endfor %}
             </tbody>

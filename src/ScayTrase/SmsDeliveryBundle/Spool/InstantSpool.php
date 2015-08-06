@@ -8,21 +8,10 @@
 
 namespace ScayTrase\SmsDeliveryBundle\Spool;
 
-use ScayTrase\SmsDeliveryBundle\Service\ShortMessageInterface;
-use ScayTrase\SmsDeliveryBundle\Transport\TransportInterface;
+use ScayTrase\SmsDeliveryBundle\Exception\DeliveryFailedException;
 
 class InstantSpool implements SpoolInterface
 {
-    /**
-     * @param TransportInterface $transport
-     * @param ShortMessageInterface $message
-     *
-     * @return bool
-     */
-    public function addMessage(TransportInterface $transport, ShortMessageInterface $message)
-    {
-        return $transport->send($message);
-    }
 
     public function clear()
     {
@@ -30,5 +19,25 @@ class InstantSpool implements SpoolInterface
 
     public function flush()
     {
+        return true;
+    }
+
+    /**
+     * @param Package $package
+     * @return bool
+     */
+    public function pushPackage(Package $package)
+    {
+        try {
+            $result = $package->getTransport()->send($package->getMessage());
+            $package->setStatus($result === true ? Package::STATUS_SUCCESS : Package::STATUS_FAIL);
+            $package->setReason($result === true ? Package::REASON_OK : $result);
+            return $result;
+        } catch (DeliveryFailedException $e) {
+            $package->setStatus(Package::STATUS_FAIL);
+            $package->setReason($e->getMessage());
+        }
+
+        return false;
     }
 }
