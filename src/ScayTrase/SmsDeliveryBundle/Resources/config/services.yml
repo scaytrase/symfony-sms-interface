@@ -8,6 +8,12 @@ services:
     sms_delviery.spool.instant:
         class: ScayTrase\SmsDeliveryBundle\Spool\InstantSpool
 
+    sms_delviery.spool.disabled:
+        class: ScayTrase\SmsDeliveryBundle\Spool\DisabledSpool
+
+    sms_delviery.spool.memory:
+        class: ScayTrase\SmsDeliveryBundle\Spool\MemorySpool
+
     sms_delivery.dummy_sender:
         class: ScayTrase\SmsDeliveryBundle\Transport\DummyTransport
 

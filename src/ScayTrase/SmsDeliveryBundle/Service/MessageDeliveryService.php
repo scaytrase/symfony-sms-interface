@@ -58,7 +58,7 @@ class MessageDeliveryService
      * @param ShortMessageInterface $message
      * @return boolean True if package was successfully spooled
      */
-    public function spool(ShortMessageInterface $message)
+    public function spoolMessage(ShortMessageInterface $message)
     {
         if (($this->recipientOverride) !== null) {
             $message->setRecipient($this->recipientOverride);
