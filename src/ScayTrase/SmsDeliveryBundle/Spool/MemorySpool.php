@@ -47,5 +47,7 @@ class MemorySpool implements SpoolInterface
     public function pushPackage(Package $package)
     {
         $this->queue[] = $package;
+
+        return true;
     }
 }
