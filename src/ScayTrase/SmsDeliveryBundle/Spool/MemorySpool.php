@@ -25,6 +25,8 @@ class MemorySpool implements SpoolInterface
     {
         $state = true;
 
+
+
         foreach ($this->queue as $package) {
             try {
                 $result = $package->getTransport()->send($package->getMessage());

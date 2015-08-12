@@ -42,6 +42,7 @@ class MessageDeliveryServiceTest extends \PHPUnit_Framework_TestCase
     {
         $container = $this->buildContainer($config);
 
+        self::assertTrue($container->hasParameter('sms_delivery.spool'));
         self::assertTrue($container->hasParameter('sms_delivery.transport'));
         self::assertTrue($container->hasParameter('sms_delivery.disable_delivery'));
         self::assertTrue($container->hasParameter('sms_delivery.delivery_recipient'));

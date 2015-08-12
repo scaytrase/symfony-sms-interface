@@ -25,9 +25,15 @@ services:
         - %sms_delivery.disable_delivery%
         - %sms_delivery.delivery_recipient%
 
-    data_collector.sms_delivery.data_collector:
+    sms_delivery.data_collector:
         class: ScayTrase\SmsDeliveryBundle\DataCollector\MessageDeliveryDataCollector
         arguments:
         - @sms_delivery.sender
         tags:
             - { name: data_collector, template: "SmsDeliveryBundle:DataCollector:data_collector", id: "sms_delivery.data_collector" }
+
+    sms_delivery.event_listener.memory_spool_listener:
+        class: ScayTrase\SmsDeliveryBundle\EventListener\MemorySpoolListener
+        arguments: [ @sms_delivery.sender, @?logger ]
+        tags:
+        - { name: kernel.event_subscriber }
