@@ -1,5 +1,5 @@
 parameters:
-    sms_delivery.transport: sms_delivery.dummy_sender
+    sms_delivery.transport: sms_delivery.transport.dummy
     sms_delivery.disable_delivery: false
     sms_delivery.delivery_recipient: null
     sms_delivery.spool: sms_delviery.spool.instant
@@ -14,7 +14,7 @@ services:
     sms_delviery.spool.memory:
         class: ScayTrase\SmsDeliveryBundle\Spool\MemorySpool
 
-    sms_delivery.dummy_sender:
+    sms_delivery.transport.dummy:
         class: ScayTrase\SmsDeliveryBundle\Transport\DummyTransport
 
     sms_delivery.sender:

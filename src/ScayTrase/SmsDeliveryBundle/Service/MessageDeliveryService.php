@@ -27,7 +27,7 @@ class MessageDeliveryService
     private $deliveryDisabled;
     /** @var  string */
     private $recipientOverride;
-    /** @var  array[] */
+    /** @var  Package[] */
     private $profile = array();
     /** @var SpoolInterface */
     private $spool;
@@ -86,7 +86,7 @@ class MessageDeliveryService
     }
 
     /**
-     * @return array[]
+     * @return Package[]
      */
     public function getProfile()
     {

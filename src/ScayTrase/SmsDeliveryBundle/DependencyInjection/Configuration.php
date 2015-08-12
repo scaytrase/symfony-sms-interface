@@ -28,7 +28,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->append($sender->defaultValue('sms_delivery.dummy_sender')->info('Sender transport service'))
+                ->append($sender->defaultValue('sms_delivery.transport.dummy')->info('Sender transport service'))
                 ->append($disable_delivery->defaultFalse()->info('Disables actual delivery for testing purposes'))
                 ->append($delivery_recipient->defaultNull()->info('Recipient for messages for testing purposes'))
             ->end();
