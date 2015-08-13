@@ -8,9 +8,6 @@
 
 namespace ScayTrase\SmsDeliveryBundle\Spool;
 
-use ScayTrase\SmsDeliveryBundle\Service\ShortMessageInterface;
-use ScayTrase\SmsDeliveryBundle\Transport\TransportInterface;
-
 interface SpoolInterface
 {
     /**

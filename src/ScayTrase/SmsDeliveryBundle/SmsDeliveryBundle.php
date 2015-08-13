@@ -2,6 +2,7 @@
 
 namespace ScayTrase\SmsDeliveryBundle;
 
+use ScayTrase\SmsDeliveryBundle\DependencyInjection\Compiler\SpoolCompilerPass;
 use ScayTrase\SmsDeliveryBundle\DependencyInjection\Compiler\TransportCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -22,6 +23,7 @@ class SmsDeliveryBundle extends Bundle
     {
         parent::build($container);
         $container->addCompilerPass(new TransportCompilerPass());
+        $container->addCompilerPass(new SpoolCompilerPass());
     }
 
 }

@@ -8,7 +8,6 @@
 
 namespace ScayTrase\SmsDeliveryBundle\Service;
 
-use ScayTrase\SmsDeliveryBundle\Spool\DisabledSpool;
 use ScayTrase\SmsDeliveryBundle\Spool\InstantSpool;
 use ScayTrase\SmsDeliveryBundle\Spool\Package;
 use ScayTrase\SmsDeliveryBundle\Spool\SpoolInterface;
@@ -23,10 +22,6 @@ class MessageDeliveryService
 {
     /** @var  TransportInterface */
     protected $transport;
-    /** @var  boolean */
-    private $deliveryDisabled;
-    /** @var  string */
-    private $recipientOverride;
     /** @var  Package[] */
     private $profile = array();
     /** @var SpoolInterface */
@@ -35,22 +30,13 @@ class MessageDeliveryService
     /**
      * @param TransportInterface $transport
      * @param SpoolInterface $spool
-     * @param bool $deliveryDisabled
-     * @param null|string $recipientOverride
      */
-    public function __construct(
-        TransportInterface $transport,
-        SpoolInterface $spool = null,
-        $deliveryDisabled = false,
-        $recipientOverride = null
-    )
+    public function __construct(TransportInterface $transport, SpoolInterface $spool = null)
     {
         $this->transport = $transport;
         $this->spool = $spool;
-        $this->deliveryDisabled = $deliveryDisabled;
-        $this->recipientOverride = $recipientOverride;
         if (!$this->spool) {
-            $this->spool = $this->deliveryDisabled ? new DisabledSpool() : new InstantSpool();
+            $this->spool = new InstantSpool();
         }
     }
 
@@ -60,10 +46,6 @@ class MessageDeliveryService
      */
     public function spoolMessage(ShortMessageInterface $message)
     {
-        if (($this->recipientOverride) !== null) {
-            $message->setRecipient($this->recipientOverride);
-        }
-
         $package = new Package($this->transport, $message);
         $this->profile[] = $package;
         return $this->spool->pushPackage($package);
