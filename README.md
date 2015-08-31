@@ -19,18 +19,18 @@ implement a transport on your own. See [usage section](#Usage) for known impleme
 - [x] Ability to disable delivery via config for testing purposes
 - [x] Ability to force redirect messages for testing purposes
 - [x] Profiling via Sf2 Toolbar
- 
+- [x] Spooling and delayed sending
+
 ### Planned features
 
 - [ ] Bulk sending
-- [ ] Spooling and delayed sending
 
 ## Installation
 
 This bunde could be installed via Composer
 
 ```
-composer require scaytrase/symfony-sms-delivery-bundle:~1.0
+composer require scaytrase/symfony-sms-delivery-bundle:~2.0
 ```
 
 ### app/AppKernel.php
@@ -71,12 +71,14 @@ class MyMessage implements ShortMessageInterface { /*...*/ }
 
 class SmsController extends Controller {
 
-public function sendSmsAction(){
-  $message = new MyMessage('5552368','Help!')
-  $sender = $this->get('sms_delivery.sender');
-  $sender->spoolMessage($message);
-  $result = $sender->flush();
-  return new Response('Delivery '. $result ? 'successful' : 'failed');
+  public function sendSmsAction()
+  {
+    $message = new MyMessage('5552368','Help!')
+    $sender = $this->get('sms_delivery.sender');
+    $sender->spoolMessage($message);
+    $result = $sender->flush();
+    return new Response('Delivery '. $result ? 'successful' : 'failed');
+  }
 }
 ```
 
