@@ -9,7 +9,7 @@
 
 This Symfony bundle provides basic service for sending short messages. This bundle does not provide you any finished
 implementation for communicating the SMS gateway. To use it you have use some transport implementation or
-implement a transport on your own. See [usage section](#Usage) for known implementations
+implement a transport on your own. See [usage section](#usage) for known implementations
 
 ## Features
 
