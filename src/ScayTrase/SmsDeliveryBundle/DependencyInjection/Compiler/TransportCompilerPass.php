@@ -10,6 +10,7 @@ namespace ScayTrase\SmsDeliveryBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 
 class TransportCompilerPass implements CompilerPassInterface
 {
@@ -23,9 +24,27 @@ class TransportCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $container->getDefinition('sms_delivery.sender')->replaceArgument(
-            0,
-            $container->getDefinition($container->getParameter('sms_delivery.transport'))
-        );
+        if (!$container->hasDefinition('sms_delivery.sender')) {
+            return;
+        }
+
+        $sender = $container->getDefinition('sms_delivery.sender');
+
+        $transport = $container->getDefinition($container->getParameter('sms_delivery.transport'));
+        if (
+            $container->hasParameter('sms_delivery.delivery_recipient') &&
+            $container->getParameter('sms_delivery.delivery_recipient') !== null
+        ) {
+            $overrideTransport = new Definition('ScayTrase\SmsDeliveryBundle\Transport\OverrideRecipientTransport');
+            $overrideTransport->setArguments(
+                array(
+                    $transport,
+                    $container->getParameter('sms_delivery.delivery_recipient')
+                )
+            );
+            $sender->replaceArgument(0, $overrideTransport);
+        } else {
+            $sender->replaceArgument(0, $transport);
+        }
     }
 }

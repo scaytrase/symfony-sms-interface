@@ -1,0 +1,5 @@
+framework:
+  secret: secret
+
+sms_delivery:
+  spool: sms_delivery.spool.memory

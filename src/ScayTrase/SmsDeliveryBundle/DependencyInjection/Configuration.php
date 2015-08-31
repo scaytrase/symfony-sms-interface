@@ -24,11 +24,13 @@ class Configuration implements ConfigurationInterface
 
         $disable_delivery = (new BooleanNodeDefinition('disable_delivery'));
         $delivery_recipient = (new ScalarNodeDefinition('delivery_recipient'));
-        $sender = (new ScalarNodeDefinition('transport'));
+        $transport = (new ScalarNodeDefinition('transport'));
+        $spool = (new ScalarNodeDefinition('spool'));
 
         $rootNode
             ->children()
-                ->append($sender->defaultValue('sms_delivery.dummy_sender')->info('Sender transport service'))
+                ->append($spool->defaultValue('sms_delivery.spool.instant')->info('Sender message spool'))
+                ->append($transport->defaultValue('sms_delivery.transport.dummy')->info('Sender transport service'))
                 ->append($disable_delivery->defaultFalse()->info('Disables actual delivery for testing purposes'))
                 ->append($delivery_recipient->defaultNull()->info('Recipient for messages for testing purposes'))
             ->end();
