@@ -4,22 +4,24 @@ php:
   - 5.4
   - 5.5
   - 5.6
+  - 7
   - hhvm
 
 env:
   - SYMFONY_VERSION='2.3.*' deps='no'
-  - SYMFONY_VERSION='2.5.*' deps='no'
-  - SYMFONY_VERSION='2.6.*' deps='no'
-  - SYMFONY_VERSION='2.7.*@dev' deps='no'
+  - SYMFONY_VERSION='2.7.*' deps='no'
+  - SYMFONY_VERSION='2.8.*' deps='no'
 
 matrix:
     include:
-      - php: 5.5
-        env: SYMFONY_VERSION='~2.8@dev' deps='no'
-      - php: 5.5
-        env: SYMFONY_VERSION='~2.8|~3.0@dev' deps='no'
       - php: 5.4
         env: SYMFONY_VERSION='2.3.*' deps='low'
+      - php: 5.5
+        env: SYMFONY_VERSION='3.0.*' deps='no'
+      - php: 5.6
+        env: SYMFONY_VERSION='3.0.*' deps='no'
+      - php: 7
+        env: SYMFONY_VERSION='3.0.*' deps='no'
 
     allow_failures:
         - php: hhvm
