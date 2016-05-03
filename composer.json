@@ -17,8 +17,12 @@
     "symfony/config": "~2.3|~3.0"
   },
   "require-dev": {
+    "scaytrase/symfony-test-utils": "~1.1",
     "phpunit/phpunit": "~4.6@stable|~5.0@stable",
     "symfony/framework-bundle": "~2.3|~3.0"
+  },
+  "suggest": {
+    "scaytrase/symfony-test-utils": "For behat profiling"
   },
   "autoload": {
     "psr-0": {

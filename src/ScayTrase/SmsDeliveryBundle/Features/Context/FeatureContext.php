@@ -27,11 +27,11 @@ class FeatureContext extends RawSymfonyContext
 
         /** @var MessageDeliveryDataCollector $collector */
         $collector = $profiler->getCollector('sms_delivery.data_collector');
-        PHPUnit_Framework_Assert::assertEquals(1, $collector->getMessageCount());
-        $messages = $collector->getRecords();
+        PHPUnit_Framework_Assert::assertCount(1, $collector->getData());
+        $packages = $collector->getData();
         /** @var ShortMessageInterface $message */
-        $message = $messages[0]['message'];
-        PHPUnit_Framework_Assert::assertEquals('disabled', $messages[0]['status']);
+        $message = $packages[0]->getMessage();
+        PHPUnit_Framework_Assert::assertEquals('disabled', $packages[0]->getStatus());
         PHPUnit_Framework_Assert::assertNotEmpty($message->getBody());
         PHPUnit_Framework_Assert::assertEquals($phoneNumber, $message->getRecipient());
         preg_match('/\d{6}/', $message->getBody(), $matches);
@@ -62,5 +62,4 @@ class FeatureContext extends RawSymfonyContext
     {
         return str_replace('\\"', '"', $argument);
     }
-
 }
