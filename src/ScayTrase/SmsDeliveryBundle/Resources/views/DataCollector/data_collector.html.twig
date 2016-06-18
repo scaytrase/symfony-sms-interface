@@ -1,7 +1,6 @@
 {% extends 'WebProfilerBundle:Profiler:layout.html.twig' %}
 
 
-
 {% block toolbar %}
     {% set success = true %}
     {% set good = 0 %}
@@ -50,12 +49,18 @@
 {% endblock %}
 
 {% block menu %}
+    {% set success = true %}
+    {% for key,row in collector.data %}
+        {% if row.status == 'fail' %}
+            {% set success = false %}
+        {% endif %}
+    {% endfor %}
     <span class="label">
         <span class="icon">
             <img alt="Short messages"
                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAeCAYAAABaKIzgAAAABGdBTUEAALGOfPtRkwAAACBjSFJNAAB6JQAAgIMAAPn/AACA6QAAdTAAAOpgAAA6mAAAF2+SX8VGAAAACXBIWXMAAAsSAAALEgHS3X78AAAAGHRFWHRTb2Z0d2FyZQBwYWludC5uZXQgNC4wLjOM5pdQAAABvElEQVRYR+3Xv0sCYRzHcU/vPMU7RAfbbYmmftAQtRRtDa39Ga0t/QENjdF/EEEQBFFruBbU6hYEDVkUZWVq9f5CBw/Hk5X6eBZ+4YXHfTU/Pr/oYv+pPIxjypAROOiosijhDe+GvGIDFtquCZgMGajARdslU6P7w912j0HQ7zTS6fRKMpnc0fTCoh3ReDx+lc1mJ3m90fUVZoMmEolrRkxOhWa4F0ilUmuu667regqzQQm5ncvlpi3LetT1BT/mnFGd57oe7inMBiVgnWm91fUCvKeSz+dHuX4K9xS9W6O2bR96njeLmUwmM0fAstxnRGuFQqHI60P4M4qebqYaZHQDDUjQKlNfbLU80NOgWiyNS4KOcf0c7inMBnUcZ/dzM1V1fcGIHrMclrj+8mSA2aCMVpmdvyWbStfnfpP1uszxtK/rK6Kdekaz5Pv+IoFfdH1FdEFlNBntI1mjun5I9Jvph/5M0Dt0FHQYrY6VbjmDjbYrjlXI1Oi+oBsusICulDzP/IY8rG1CfYyRxw25H35v5JXCHoKwErSj6TVZPg7Q90GlhnCCvg8qJafHKfo+qJT88yynyKD6oGKxD/dgDJY6o7ruAAAAAElFTkSuQmCC"/>
         </span>
-        <strong>Short messages</strong>
+        <strong>SMS</strong>
 
         <span class="count {% if not success %}sf-toolbar-status-red{% endif %}">
             <span>{{ collector.data | length }}</span>
@@ -66,8 +71,6 @@
 
 {% block panel %}
     <h2>Short Messages</h2>
-
-    <h3>{{ collector.service }}</h3>
 
     {% if not (collector.data | length) %}
         <p>
@@ -80,10 +83,8 @@
                 <th scope="col">#</th>
                 <th scope="col">Delivery Status</th>
                 <th scope="col">Delivery Reason</th>
-                {#<th scope="col">Delivery Transport</th>#}
                 <th scope="col">Message Recipient</th>
                 <th scope="col">Message Body</th>
-                {#<th scope="col">Message Class</th>#}
             </tr>
             </thead>
             <tbody>
@@ -92,10 +93,8 @@
                     <td>{{ key }}</td>
                     <td>{{ package.status }}</td>
                     <td>{{ package.reason }}</td>
-                    {#<td>{{ package.record.transport }}</td>#}
-                    <td>{{ package.record.message.recipient }}</td>
+                    <td>{{ package.message.recipient }}</td>
                     <td>{{ package.message.body }}</td>
-                    {#<td>{{ package.message_class }}</td>#}
                 </tr>
             {% endfor %}
             </tbody>
