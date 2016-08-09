@@ -88,4 +88,9 @@ class Package
     {
         $this->status = $status;
     }
+    
+    function __sleep()
+    {
+        return array('reason', 'status', 'message');
+    }
 }
