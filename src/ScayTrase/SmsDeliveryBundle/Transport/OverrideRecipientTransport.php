@@ -39,6 +39,6 @@ class OverrideRecipientTransport implements TransportInterface
     public function send(ShortMessageInterface $message)
     {
         $message->setRecipient($this->recipient);
-        $this->transport->send($message);
+        return $this->transport->send($message);
     }
 }
