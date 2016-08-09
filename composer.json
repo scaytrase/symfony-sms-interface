@@ -1,8 +1,8 @@
 {
   "name": "scaytrase/symfony-sms-delivery-bundle",
-  "description": "Symfony2 Bundle with service for sending sms",
+  "description": "Symfony Bundle SMS sending service",
   "minimum-stability": "stable",
-  "license": "GPL-2.0+",
+  "license": "MIT",
   "authors": [
     {
       "name": "Pavel Batanov",
@@ -11,22 +11,18 @@
   ],
   "require": {
     "php": ">=5.3.3",
-    "symfony/http-kernel": "~2.3|~3.0",
     "symfony/dependency-injection": "~2.3|~3.0",
-    "symfony/http-foundation": "~2.3|~3.0",
-    "symfony/config": "~2.3|~3.0"
+    "symfony/config": "~2.3|~3.0",
+    "symfony/http-kernel": "~2.3|~3.0",
+    "symfony/http-foundation": "~2.3|~3.0"
   },
   "require-dev": {
-    "scaytrase/symfony-test-utils": "~1.1",
     "phpunit/phpunit": "~5.0 <5.4 || ~4.6 ",
     "symfony/framework-bundle": "~2.3|~3.0"
   },
-  "suggest": {
-    "scaytrase/symfony-test-utils": "For behat profiling"
-  },
   "autoload": {
-    "psr-0": {
-      "": "src/"
+    "psr-4": {
+      "ScayTrase\\SmsDeliveryBundle\\": "src/ScayTrase/SmsDeliveryBundle"
     }
   }
 }
