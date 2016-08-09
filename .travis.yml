@@ -35,4 +35,4 @@ install:
 
 script:
   - mkdir -p build
-  - phpunit
+  - vendor/bin/phpunit --colors
