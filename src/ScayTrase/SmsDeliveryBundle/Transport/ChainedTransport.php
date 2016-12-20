@@ -23,7 +23,7 @@ class ChainedTransport implements TransportInterface
     /**
      * @var TransportInterface[][]
      */
-    private $transports;
+    private $transports = [];
 
     /** @var  LoggerInterface */
     private $logger;
