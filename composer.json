@@ -10,19 +10,20 @@
     }
   ],
   "require": {
-    "php": ">=5.3.3",
-    "symfony/dependency-injection": "~2.3|~3.0",
-    "symfony/config": "~2.3|~3.0",
-    "symfony/http-kernel": "~2.3|~3.0",
-    "symfony/http-foundation": "~2.3|~3.0"
+    "php": "~5.5 || ~7.0",
+    "symfony/dependency-injection": "~2.3 ||~3.0",
+    "symfony/yaml": "~2.3 ||~3.0",
+    "symfony/config": "~2.3 || ~3.0",
+    "symfony/http-kernel": "~2.3 || ~3.0",
+    "symfony/http-foundation": "~2.3 || ~3.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "~5.0 <5.4 || ~4.6 ",
-    "symfony/framework-bundle": "~2.3|~3.0"
+    "phpunit/phpunit": "^4.6.35 || ~5.0 || ~6.0",
+    "symfony/framework-bundle": "~2.3 || ~3.0"
   },
   "autoload": {
     "psr-4": {
-      "ScayTrase\\SmsDeliveryBundle\\": "src/ScayTrase/SmsDeliveryBundle"
+      "ScayTrase\\SmsDeliveryBundle\\": "./"
     }
   }
 }

@@ -21,12 +21,10 @@
         timeoutForLargeTests="60"
         strict="false"
         verbose="false">
-    <php>
-        <server name="KERNEL_DIR" value="app/" />
-    </php>
+
     <testsuites>
         <testsuite name="All tests">
-            <directory>src/</directory>
+            <directory>./Tests/</directory>
         </testsuite>
     </testsuites>
 </phpunit>

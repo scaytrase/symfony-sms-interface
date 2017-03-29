@@ -59,7 +59,7 @@ sms_delivery:
 
 ## Usage
 
-To use this interface you must create a message class implementing  ``ShortMessageInterface`` and create the implementation of the
+To use this interface you must create a message class implementing  ``ShortMessage`` and create the implementation of the
 ``TransportInterface`` that delivers your message to end point sms gateway.
 You can refer my [WebSMS](https://github.com/scaytrase/symfony-websms-bundle) gateway implementation as a reference.
  
@@ -67,7 +67,7 @@ You can refer my [WebSMS](https://github.com/scaytrase/symfony-websms-bundle) ga
 ### Example
 
 ```php
-class MyMessage implements ShortMessageInterface { /*...*/ }
+class MyMessage implements ShortMessage { /*...*/ }
 
 class SmsController extends Controller {
 
@@ -92,7 +92,7 @@ short messages. You should just instantiate sender service on your own.
 
     class MyProviderSmsTransport implements TransportInterface { /*...*/ }
 
-    class MyMessage implements ShortMessageInterface { /*...*/ }
+    class MyMessage implements ShortMessage { /*...*/ }
 
     $transport = new MyProviderSmsTransport();
     $sender = new MessageDeliveryService($transport);
